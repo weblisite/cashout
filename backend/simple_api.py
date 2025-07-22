@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Simple Cashout API - Flask-based backend for web apps
-No complex dependencies, just basic functionality
+Production ready for Render deployment
 """
 
 from flask import Flask, request, jsonify
@@ -13,6 +13,10 @@ import os
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for web apps
+
+# Production settings
+app.config['DEBUG'] = os.environ.get('FLASK_DEBUG', 'false').lower() == 'true'
+app.config['ENV'] = os.environ.get('FLASK_ENV', 'production')
 
 # In-memory data storage (in production, use a real database)
 users_db = {}
@@ -80,6 +84,9 @@ def init_sample_data():
         'timestamp': datetime.now().isoformat()
     }
 
+# Initialize sample data on startup
+init_sample_data()
+
 # Fee calculation function
 def calculate_fee(amount, transaction_type):
     """Calculate transaction fee based on amount and type"""
@@ -118,13 +125,33 @@ def calculate_fee(amount, transaction_type):
 
 # API Routes
 
+@app.route('/')
+def home():
+    """Home endpoint with API information"""
+    return jsonify({
+        'service': 'Cashout API',
+        'version': '1.0.0',
+        'status': 'running',
+        'environment': app.config['ENV'],
+        'timestamp': datetime.now().isoformat(),
+        'endpoints': {
+            'health': '/api/health',
+            'users': '/api/users/{user_id}',
+            'transactions': '/api/transactions/*',
+            'qr': '/api/qr/*',
+            'fees': '/api/fees/calculate'
+        }
+    })
+
 @app.route('/api/health', methods=['GET'])
 def health_check():
     """Health check endpoint"""
     return jsonify({
         'status': 'healthy',
         'timestamp': datetime.now().isoformat(),
-        'service': 'Cashout API'
+        'service': 'Cashout API',
+        'environment': app.config['ENV'],
+        'version': '1.0.0'
     })
 
 @app.route('/api/users/<user_id>', methods=['GET'])
@@ -488,14 +515,12 @@ def calculate_fees():
     })
 
 if __name__ == '__main__':
-    # Initialize sample data
-    init_sample_data()
-    
-    # Get port from environment or use default
-    port = int(os.environ.get('PORT', 5000))
+    # Get port from environment variable (Render sets this)
+    port = int(os.environ.get('PORT', 10000))
     
     print(f"🚀 Starting Cashout API on port {port}")
-    print(f"📱 Health check: http://localhost:{port}/api/health")
+    print(f"📱 Environment: {app.config['ENV']}")
+    print(f"🔍 Health check: http://localhost:{port}/api/health")
     print(f"📚 API Documentation:")
     print(f"   - GET  /api/health")
     print(f"   - GET  /api/users/<user_id>")
@@ -508,4 +533,4 @@ if __name__ == '__main__':
     print(f"   - POST /api/qr/scan")
     print(f"   - POST /api/fees/calculate")
     
-    app.run(host='0.0.0.0', port=port, debug=True) 
+    app.run(host='0.0.0.0', port=port, debug=app.config['DEBUG']) 

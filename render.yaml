@@ -1,0 +1,55 @@
+services:
+  # Backend API Service
+  - type: web
+    name: cashout-api
+    env: python
+    plan: free
+    buildCommand: |
+      cd backend
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt
+    startCommand: |
+      cd backend
+      python simple_api.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
+      - key: PORT
+        value: 10000
+      - key: FLASK_ENV
+        value: production
+      - key: FLASK_DEBUG
+        value: false
+
+  # Frontend Web App Service
+  - type: web
+    name: cashout-web
+    env: static
+    plan: free
+    buildCommand: |
+      echo "Building frontend..."
+      # Copy landing page files to build directory
+      mkdir -p build/web
+      cp -r landing-page/* build/web/
+      # Generate icons if needed
+      echo "Frontend build complete"
+    staticPublishPath: ./build/web
+    envVars:
+      - key: NODE_VERSION
+        value: 18.0.0
+
+  # PWA Build Service (Optional)
+  - type: web
+    name: cashout-pwa
+    env: static
+    plan: free
+    buildCommand: |
+      echo "Building PWA..."
+      mkdir -p build/pwa
+      cp -r landing-page/* build/pwa/
+      # Add PWA specific configurations
+      echo "PWA build complete"
+    staticPublishPath: ./build/pwa
+    envVars:
+      - key: NODE_VERSION
+        value: 18.0.0 
