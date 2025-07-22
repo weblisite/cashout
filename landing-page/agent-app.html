@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cashout - Agent App</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .app-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .app-header {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            padding: 1rem;
+        }
+        
+        .stat-card {
+            background: white;
+            border: 2px solid #f0f0f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            border-color: #e74c3c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .stat-card.primary {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border-color: #3498db;
+        }
+        
+        .stat-card.success {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+            border-color: #27ae60;
+        }
+        
+        .stat-card.warning {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            border-color: #f39c12;
+        }
+        
+        .stat-card.danger {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border-color: #e74c3c;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            padding: 1rem;
+        }
+        
+        .action-btn {
+            background: white;
+            border: 2px solid #f0f0f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .action-btn:hover {
+            border-color: #e74c3c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .action-btn i {
+            font-size: 2rem;
+            color: #e74c3c;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            background: #f8f9fa;
+            margin: 1rem;
+            border-radius: 12px;
+            padding: 0.25rem;
+        }
+        
+        .nav-tab {
+            flex: 1;
+            padding: 0.75rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .nav-tab.active {
+            background: white;
+            color: #e74c3c;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin: 1rem 0;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .btn-primary {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #c0392b;
+            transform: translateY(-1px);
+        }
+        
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #229954;
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: #f8f9fa;
+            color: var(--text-primary);
+            border: 1px solid #ddd;
+        }
+        
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+        
+        .transaction-item {
+            background: white;
+            padding: 1rem;
+            margin: 0.5rem 1rem;
+            border-radius: 12px;
+            border-left: 4px solid #e74c3c;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .transaction-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+        
+        .transaction-item.success {
+            border-left-color: #27ae60;
+        }
+        
+        .transaction-item.warning {
+            border-left-color: #f39c12;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #27ae60;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.error {
+            background: #e74c3c;
+        }
+        
+        .notification.warning {
+            background: #f39c12;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #e74c3c;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .qr-scanner {
+            background: #f8f9fa;
+            border: 2px dashed #ddd;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .qr-scanner:hover {
+            border-color: #e74c3c;
+            background: #f0f4ff;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-failed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- App Header -->
+        <div class="app-header">
+            <h1><i class="fas fa-user-tie"></i> Agent Portal</h1>
+            <p>Welcome, <span id="agentName">Agent John</span>!</p>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card primary">
+                <div class="stat-value" id="floatBalance">KES 50,000</div>
+                <div class="stat-label">Float Balance</div>
+            </div>
+            <div class="stat-card success">
+                <div class="stat-value" id="commissionBalance">KES 2,500</div>
+                <div class="stat-label">Commission</div>
+            </div>
+            <div class="stat-card warning">
+                <div class="stat-value" id="todayTransactions">12</div>
+                <div class="stat-label">Today's Transactions</div>
+            </div>
+            <div class="stat-card danger">
+                <div class="stat-value" id="pendingTransactions">3</div>
+                <div class="stat-label">Pending</div>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="showTab('dashboard')">
+                <i class="fas fa-tachometer-alt"></i><br>Dashboard
+            </div>
+            <div class="nav-tab" onclick="showTab('cashin')">
+                <i class="fas fa-download"></i><br>Cash In
+            </div>
+            <div class="nav-tab" onclick="showTab('cashout')">
+                <i class="fas fa-upload"></i><br>Cash Out
+            </div>
+            <div class="nav-tab" onclick="showTab('transactions')">
+                <i class="fas fa-exchange-alt"></i><br>History
+            </div>
+            <div class="nav-tab" onclick="showTab('profile')">
+                <i class="fas fa-user"></i><br>Profile
+            </div>
+        </div>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <div class="action-buttons">
+                <div class="action-btn" onclick="showTab('cashin')">
+                    <i class="fas fa-download"></i>
+                    <div>Cash In</div>
+                </div>
+                <div class="action-btn" onclick="showTab('cashout')">
+                    <i class="fas fa-upload"></i>
+                    <div>Cash Out</div>
+                </div>
+                <div class="action-btn" onclick="showTab('qr')">
+                    <i class="fas fa-qrcode"></i>
+                    <div>Scan QR</div>
+                </div>
+                <div class="action-btn" onclick="showTab('reports')">
+                    <i class="fas fa-chart-bar"></i>
+                    <div>Reports</div>
+                </div>
+            </div>
+
+            <h3 style="margin: 1rem;">Recent Transactions</h3>
+            <div id="recentTransactions">
+                <!-- Transactions will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Cash In Tab -->
+        <div id="cashin" class="tab-content">
+            <div style="padding: 1rem;">
+                <h3>Cash In</h3>
+                <p style="color: #666; margin-bottom: 1rem;">Process cash deposits from customers.</p>
+                
+                <form id="cashInForm">
+                    <div class="form-group">
+                        <label>Customer Phone Number</label>
+                        <input type="tel" id="customerPhone" class="form-control" placeholder="Enter customer phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Amount (KES)</label>
+                        <input type="number" id="cashInAmount" class="form-control" placeholder="Enter amount" min="50" max="1000000" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Customer ID Type</label>
+                        <select id="idType" class="form-control">
+                            <option>National ID</option>
+                            <option>Passport</option>
+                            <option>Driving License</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>ID Number</label>
+                        <input type="text" id="idNumber" class="form-control" placeholder="Enter ID number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Notes (Optional)</label>
+                        <textarea id="cashInNotes" class="form-control" placeholder="Any additional notes" rows="3"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success" id="cashInButton">
+                        <span id="cashInButtonText">Process Cash In</span>
+                        <span id="cashInButtonLoading" class="loading" style="display: none;"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Cash Out Tab -->
+        <div id="cashout" class="tab-content">
+            <div style="padding: 1rem;">
+                <h3>Cash Out</h3>
+                <p style="color: #666; margin-bottom: 1rem;">Process cash withdrawals for customers.</p>
+                
+                <form id="cashOutForm">
+                    <div class="form-group">
+                        <label>Customer Phone Number</label>
+                        <input type="tel" id="cashOutCustomerPhone" class="form-control" placeholder="Enter customer phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Amount (KES)</label>
+                        <input type="number" id="cashOutAmount" class="form-control" placeholder="Enter amount" min="50" max="1000000" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Customer ID Type</label>
+                        <select id="cashOutIdType" class="form-control">
+                            <option>National ID</option>
+                            <option>Passport</option>
+                            <option>Driving License</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>ID Number</label>
+                        <input type="text" id="cashOutIdNumber" class="form-control" placeholder="Enter ID number" required>
+                    </div>
+                    
+                    <div id="cashOutFeeDisplay" style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin: 1rem 0; display: none;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Withdrawal Amount:</span>
+                            <span id="cashOutDisplayAmount">KES 0</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Fee:</span>
+                            <span id="cashOutDisplayFee">KES 0</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-weight: bold;">
+                            <span>Total Deducted:</span>
+                            <span id="cashOutDisplayTotal">KES 0</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; color: #27ae60;">
+                            <span>Your Commission:</span>
+                            <span id="cashOutDisplayCommission">KES 0</span>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" id="cashOutButton">
+                        <span id="cashOutButtonText">Process Cash Out</span>
+                        <span id="cashOutButtonLoading" class="loading" style="display: none;"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- QR Tab -->
+        <div id="qr" class="tab-content">
+            <div style="padding: 1rem;">
+                <h3>QR Code Scanner</h3>
+                
+                <div class="qr-scanner" onclick="startQRScanner()">
+                    <i class="fas fa-qrcode" style="font-size: 3rem; color: #666; margin-bottom: 1rem;"></i>
+                    <p>Tap to scan QR code</p>
+                    <small>Scan customer QR codes for payments</small>
+                </div>
+                
+                <div style="margin-top: 2rem;">
+                    <h4>Manual Entry</h4>
+                    <div class="form-group">
+                        <label>Customer Phone Number</label>
+                        <input type="tel" id="qrCustomerPhone" class="form-control" placeholder="Enter customer phone">
+                    </div>
+                    <div class="form-group">
+                        <label>Amount (KES)</label>
+                        <input type="number" id="qrAmount" class="form-control" placeholder="Enter amount">
+                    </div>
+                    <button class="btn btn-secondary" onclick="processManualPayment()">Process Payment</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transactions Tab -->
+        <div id="transactions" class="tab-content">
+            <div style="padding: 1rem;">
+                <h3>Transaction History</h3>
+                <div id="transactionHistory">
+                    <!-- Transaction history will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Tab -->
+        <div id="profile" class="tab-content">
+            <div style="padding: 1rem;">
+                <h3>Agent Profile</h3>
+                <div style="text-align: center; margin: 2rem 0;">
+                    <div style="width: 80px; height: 80px; background: #e74c3c; border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h4 id="profileAgentName">Agent John</h4>
+                    <p id="profileAgentPhone">+254 700 345 678</p>
+                    <p id="profileAgentLocation">Nairobi CBD</p>
+                </div>
+                
+                <div style="margin: 1rem 0;">
+                    <button class="btn btn-secondary" onclick="showTab('settings')">
+                        <i class="fas fa-cog"></i> Settings
+                    </button>
+                    <button class="btn btn-secondary" onclick="showTab('reports')">
+                        <i class="fas fa-chart-bar"></i> Reports
+                    </button>
+                    <button class="btn btn-secondary" onclick="showTab('support')">
+                        <i class="fas fa-question-circle"></i> Support
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <script>
+        // Global variables
+        let agentData = {
+            id: 'agent1',
+            name: 'Agent John',
+            phone: '+254 700 345 678',
+            location: 'Nairobi CBD',
+            float_balance: 50000.0,
+            commission_balance: 2500.0,
+            status: 'active'
+        };
+        
+        let transactions = [];
+        let todayTransactions = 12;
+        let pendingTransactions = 3;
+        
+        // API Configuration
+        const API_BASE_URL = 'http://localhost:5000/api';
+        const CURRENT_AGENT_ID = 'agent1';
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAgentData();
+            loadTransactions();
+            updateStats();
+            setupEventListeners();
+            checkAPIHealth();
+        });
+
+        async function checkAPIHealth() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/health`);
+                const data = await response.json();
+                console.log('API Health:', data);
+            } catch (error) {
+                console.warn('API not available, using demo mode');
+            }
+        }
+
+        async function loadAgentData() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/agents/${CURRENT_AGENT_ID}`);
+                if (response.ok) {
+                    const agent = await response.json();
+                    agentData = agent;
+                }
+            } catch (error) {
+                console.log('Using demo agent data');
+            }
+            
+            document.getElementById('agentName').textContent = agentData.name;
+            document.getElementById('profileAgentName').textContent = agentData.name;
+            document.getElementById('profileAgentPhone').textContent = agentData.phone;
+            document.getElementById('profileAgentLocation').textContent = agentData.location;
+        }
+
+        async function loadTransactions() {
+            try {
+                // In a real app, you'd fetch agent-specific transactions
+                // For now, we'll use demo data
+                loadDemoTransactions();
+            } catch (error) {
+                console.log('Using demo transaction data');
+                loadDemoTransactions();
+            }
+            
+            displayRecentTransactions();
+            displayTransactionHistory();
+        }
+
+        function loadDemoTransactions() {
+            transactions = [
+                {
+                    id: 1,
+                    type: 'cash_in',
+                    customer_phone: '+254 700 123 456',
+                    amount: 2000,
+                    fee: 0,
+                    commission: 0,
+                    timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+                    status: 'completed'
+                },
+                {
+                    id: 2,
+                    type: 'cash_out',
+                    customer_phone: '+254 700 789 012',
+                    amount: 1500,
+                    fee: 22,
+                    commission: 5.5,
+                    timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(),
+                    status: 'completed'
+                },
+                {
+                    id: 3,
+                    type: 'cash_in',
+                    customer_phone: '+254 700 345 678',
+                    amount: 5000,
+                    fee: 0,
+                    commission: 0,
+                    timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
+                    status: 'completed'
+                }
+            ];
+        }
+
+        function updateStats() {
+            document.getElementById('floatBalance').textContent = `KES ${agentData.float_balance.toLocaleString()}`;
+            document.getElementById('commissionBalance').textContent = `KES ${agentData.commission_balance.toLocaleString()}`;
+            document.getElementById('todayTransactions').textContent = todayTransactions;
+            document.getElementById('pendingTransactions').textContent = pendingTransactions;
+        }
+
+        function setupEventListeners() {
+            // Cash in form
+            document.getElementById('cashInForm').addEventListener('submit', handleCashIn);
+            
+            // Cash out form
+            document.getElementById('cashOutForm').addEventListener('submit', handleCashOut);
+            
+            // Amount input listeners
+            document.getElementById('cashOutAmount').addEventListener('input', calculateCashOutFee);
+        }
+
+        function calculateCashOutFee() {
+            const amount = parseFloat(document.getElementById('cashOutAmount').value) || 0;
+            
+            if (amount > 0) {
+                // Calculate fee (same as user app)
+                let fee = 0;
+                if (amount <= 100) fee = 8;
+                else if (amount <= 500) fee = 22;
+                else if (amount <= 1000) fee = 22;
+                else if (amount <= 1500) fee = 22;
+                else if (amount <= 2500) fee = 22;
+                else if (amount <= 3500) fee = 39;
+                else if (amount <= 5000) fee = 52;
+                else if (amount <= 7500) fee = 65;
+                else if (amount <= 10000) fee = 86;
+                else if (amount <= 15000) fee = 125;
+                else if (amount <= 20000) fee = 139;
+                else if (amount <= 35000) fee = 148;
+                else if (amount <= 50000) fee = 209;
+                else if (amount <= 250000) fee = 232;
+                else if (amount <= 500000) fee = 513;
+                else fee = 1076;
+                
+                const total = amount + fee;
+                const commission = fee * 0.25; // 25% commission
+                
+                document.getElementById('cashOutFeeDisplay').style.display = 'block';
+                document.getElementById('cashOutDisplayAmount').textContent = `KES ${amount.toLocaleString()}`;
+                document.getElementById('cashOutDisplayFee').textContent = `KES ${fee}`;
+                document.getElementById('cashOutDisplayTotal').textContent = `KES ${total.toLocaleString()}`;
+                document.getElementById('cashOutDisplayCommission').textContent = `KES ${commission.toFixed(1)}`;
+            } else {
+                document.getElementById('cashOutFeeDisplay').style.display = 'none';
+            }
+        }
+
+        async function handleCashIn(e) {
+            e.preventDefault();
+            
+            const customerPhone = document.getElementById('customerPhone').value;
+            const amount = parseFloat(document.getElementById('cashInAmount').value);
+            const idType = document.getElementById('idType').value;
+            const idNumber = document.getElementById('idNumber').value;
+            const notes = document.getElementById('cashInNotes').value;
+            
+            if (!customerPhone || !amount || !idNumber) {
+                showNotification('Please fill in all required fields', 'error');
+                return;
+            }
+            
+            if (amount < 50 || amount > 1000000) {
+                showNotification('Invalid amount. Must be between 50 and 1,000,000 KES', 'error');
+                return;
+            }
+            
+            // Show loading
+            const button = document.getElementById('cashInButton');
+            const buttonText = document.getElementById('cashInButtonText');
+            const buttonLoading = document.getElementById('cashInButtonLoading');
+            
+            button.disabled = true;
+            buttonText.style.display = 'none';
+            buttonLoading.style.display = 'inline-block';
+            
+            try {
+                // Try API first
+                const response = await fetch(`${API_BASE_URL}/transactions/cash-in`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        user_id: 'user1', // In real app, find user by phone
+                        agent_id: CURRENT_AGENT_ID,
+                        amount: amount
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // Update local data
+                    agentData.float_balance -= amount;
+                    transactions.unshift({
+                        id: Date.now(),
+                        type: 'cash_in',
+                        customer_phone: customerPhone,
+                        amount: amount,
+                        fee: 0,
+                        commission: 0,
+                        timestamp: new Date().toISOString(),
+                        status: 'completed'
+                    });
+                    
+                    todayTransactions++;
+                    
+                    // Update UI
+                    updateStats();
+                    displayRecentTransactions();
+                    displayTransactionHistory();
+                    
+                    showNotification('Cash In processed successfully!', 'success');
+                } else {
+                    const errorData = await response.json();
+                    showNotification(errorData.error || 'Transaction failed', 'error');
+                }
+                
+            } catch (error) {
+                // Fallback to demo mode
+                console.log('API unavailable, using demo mode');
+                
+                // Simulate processing
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Process locally
+                agentData.float_balance -= amount;
+                transactions.unshift({
+                    id: Date.now(),
+                    type: 'cash_in',
+                    customer_phone: customerPhone,
+                    amount: amount,
+                    fee: 0,
+                    commission: 0,
+                    timestamp: new Date().toISOString(),
+                    status: 'completed'
+                });
+                
+                todayTransactions++;
+                
+                // Update UI
+                updateStats();
+                displayRecentTransactions();
+                displayTransactionHistory();
+                
+                showNotification('Cash In processed successfully! (Demo Mode)', 'success');
+            } finally {
+                // Reset form
+                document.getElementById('cashInForm').reset();
+                
+                // Hide loading
+                button.disabled = false;
+                buttonText.style.display = 'inline';
+                buttonLoading.style.display = 'none';
+            }
+        }
+
+        async function handleCashOut(e) {
+            e.preventDefault();
+            
+            const customerPhone = document.getElementById('cashOutCustomerPhone').value;
+            const amount = parseFloat(document.getElementById('cashOutAmount').value);
+            const idType = document.getElementById('cashOutIdType').value;
+            const idNumber = document.getElementById('cashOutIdNumber').value;
+            
+            if (!customerPhone || !amount || !idNumber) {
+                showNotification('Please fill in all required fields', 'error');
+                return;
+            }
+            
+            if (amount < 50 || amount > 1000000) {
+                showNotification('Invalid amount. Must be between 50 and 1,000,000 KES', 'error');
+                return;
+            }
+            
+            // Calculate fee and commission
+            let fee = 0;
+            if (amount <= 100) fee = 8;
+            else if (amount <= 500) fee = 22;
+            else if (amount <= 1000) fee = 22;
+            else if (amount <= 1500) fee = 22;
+            else if (amount <= 2500) fee = 22;
+            else if (amount <= 3500) fee = 39;
+            else if (amount <= 5000) fee = 52;
+            else if (amount <= 7500) fee = 65;
+            else if (amount <= 10000) fee = 86;
+            else if (amount <= 15000) fee = 125;
+            else if (amount <= 20000) fee = 139;
+            else if (amount <= 35000) fee = 148;
+            else if (amount <= 50000) fee = 209;
+            else if (amount <= 250000) fee = 232;
+            else if (amount <= 500000) fee = 513;
+            else fee = 1076;
+            
+            const total = amount + fee;
+            const commission = fee * 0.25;
+            
+            // Show loading
+            const button = document.getElementById('cashOutButton');
+            const buttonText = document.getElementById('cashOutButtonText');
+            const buttonLoading = document.getElementById('cashOutButtonLoading');
+            
+            button.disabled = true;
+            buttonText.style.display = 'none';
+            buttonLoading.style.display = 'inline-block';
+            
+            try {
+                // Try API first
+                const response = await fetch(`${API_BASE_URL}/transactions/cash-out`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        user_id: 'user1', // In real app, find user by phone
+                        agent_id: CURRENT_AGENT_ID,
+                        amount: amount
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // Update local data
+                    agentData.float_balance += amount;
+                    agentData.commission_balance += commission;
+                    transactions.unshift({
+                        id: Date.now(),
+                        type: 'cash_out',
+                        customer_phone: customerPhone,
+                        amount: amount,
+                        fee: fee,
+                        commission: commission,
+                        timestamp: new Date().toISOString(),
+                        status: 'completed'
+                    });
+                    
+                    todayTransactions++;
+                    
+                    // Update UI
+                    updateStats();
+                    displayRecentTransactions();
+                    displayTransactionHistory();
+                    
+                    showNotification('Cash Out processed successfully!', 'success');
+                } else {
+                    const errorData = await response.json();
+                    showNotification(errorData.error || 'Transaction failed', 'error');
+                }
+                
+            } catch (error) {
+                // Fallback to demo mode
+                console.log('API unavailable, using demo mode');
+                
+                // Simulate processing
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Process locally
+                agentData.float_balance += amount;
+                agentData.commission_balance += commission;
+                transactions.unshift({
+                    id: Date.now(),
+                    type: 'cash_out',
+                    customer_phone: customerPhone,
+                    amount: amount,
+                    fee: fee,
+                    commission: commission,
+                    timestamp: new Date().toISOString(),
+                    status: 'completed'
+                });
+                
+                todayTransactions++;
+                
+                // Update UI
+                updateStats();
+                displayRecentTransactions();
+                displayTransactionHistory();
+                
+                showNotification('Cash Out processed successfully! (Demo Mode)', 'success');
+            } finally {
+                // Reset form
+                document.getElementById('cashOutForm').reset();
+                document.getElementById('cashOutFeeDisplay').style.display = 'none';
+                
+                // Hide loading
+                button.disabled = false;
+                buttonText.style.display = 'inline';
+                buttonLoading.style.display = 'none';
+            }
+        }
+
+        function startQRScanner() {
+            showNotification('QR Scanner would open here', 'info');
+        }
+
+        function processManualPayment() {
+            const phone = document.getElementById('qrCustomerPhone').value;
+            const amount = parseFloat(document.getElementById('qrAmount').value);
+            
+            if (!phone || !amount) {
+                showNotification('Please enter phone number and amount', 'error');
+                return;
+            }
+            
+            showNotification('Manual payment processed!', 'success');
+        }
+
+        function displayRecentTransactions() {
+            const container = document.getElementById('recentTransactions');
+            const recent = transactions.slice(0, 3);
+            
+            container.innerHTML = recent.map(tx => `
+                <div class="transaction-item ${tx.status === 'completed' ? 'success' : 'warning'}">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>${getTransactionTitle(tx)}</strong>
+                            <div style="color: #666; font-size: 0.9rem;">${tx.customer_phone} • ${formatDate(tx.timestamp)}</div>
+                        </div>
+                        <div>
+                            <div style="color: ${tx.type === 'cash_in' ? '#27ae60' : '#e74c3c'}; font-weight: bold;">
+                                ${tx.type === 'cash_in' ? '+' : '-'}KES ${tx.amount.toLocaleString()}
+                            </div>
+                            <span class="status-badge status-${tx.status}">${tx.status}</span>
+                        </div>
+                    </div>
+                    ${tx.commission > 0 ? `<div style="color: #f39c12; font-size: 0.9rem; margin-top: 0.5rem;">Commission: KES ${tx.commission.toFixed(1)}</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function displayTransactionHistory() {
+            const container = document.getElementById('transactionHistory');
+            
+            container.innerHTML = transactions.map(tx => `
+                <div class="transaction-item ${tx.status === 'completed' ? 'success' : 'warning'}">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>${getTransactionTitle(tx)}</strong>
+                            <div style="color: #666; font-size: 0.9rem;">${tx.customer_phone} • ${formatDate(tx.timestamp)}</div>
+                        </div>
+                        <div>
+                            <div style="color: ${tx.type === 'cash_in' ? '#27ae60' : '#e74c3c'}; font-weight: bold;">
+                                ${tx.type === 'cash_in' ? '+' : '-'}KES ${tx.amount.toLocaleString()}
+                            </div>
+                            <span class="status-badge status-${tx.status}">${tx.status}</span>
+                        </div>
+                    </div>
+                    ${tx.fee > 0 ? `<div style="color: #e74c3c; font-size: 0.9rem;">Fee: KES ${tx.fee}</div>` : ''}
+                    ${tx.commission > 0 ? `<div style="color: #f39c12; font-size: 0.9rem;">Commission: KES ${tx.commission.toFixed(1)}</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function getTransactionTitle(tx) {
+            switch(tx.type) {
+                case 'cash_in': return 'Cash In';
+                case 'cash_out': return 'Cash Out';
+                case 'qr_payment': return 'QR Payment';
+                default: return 'Transaction';
+            }
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diff = now - date;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const days = Math.floor(hours / 24);
+            
+            if (hours < 1) return 'Just now';
+            if (hours < 24) return `${hours} hours ago`;
+            if (days < 7) return `${days} days ago`;
+            return date.toLocaleDateString();
+        }
+
+        function showTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Remove active class from all nav tabs
+            const navTabs = document.querySelectorAll('.nav-tab');
+            navTabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked nav tab
+            event.target.closest('.nav-tab').classList.add('active');
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html> 

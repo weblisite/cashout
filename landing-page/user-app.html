@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cashout - User App</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Cashout">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .app-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .app-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .wallet-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            margin: 1rem;
+            border-radius: 16px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .wallet-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            padding: 1rem;
+        }
+        
+        .action-btn {
+            background: white;
+            border: 2px solid #f0f0f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .action-btn:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .action-btn i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .transaction-item {
+            background: white;
+            padding: 1rem;
+            margin: 0.5rem 1rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .transaction-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+        
+        .nav-tabs {
+            display: flex;
+            background: #f8f9fa;
+            margin: 1rem;
+            border-radius: 12px;
+            padding: 0.25rem;
+        }
+        
+        .nav-tab {
+            flex: 1;
+            padding: 0.75rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+        
+        .nav-tab.active {
+            background: white;
+            color: var(--primary-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin: 1rem 0;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5a6fd8;
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: #f8f9fa;
+            color: var(--text-primary);
+            border: 1px solid #ddd;
+        }
+        
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #27ae60;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .qr-scanner {
+            background: #f8f9fa;
+            border: 2px dashed #ddd;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .qr-scanner:hover {
+            border-color: var(--primary-color);
+            background: #f0f4ff;
+        }
+        
+        .qr-display {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1rem;
+            text-align: center;
+        }
+        
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            background: #f0f0f0;
+            margin: 0 auto 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .qr-code::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- App Header -->
+        <div class="app-header">
+            <h1><i class="fas fa-wallet"></i> Cashout</h1>
+            <p>Welcome back, <span id="userName">User</span>!</p>
+        </div>
+
+        <!-- Wallet Card -->
+        <div class="wallet-card">
+            <h2 id="walletBalance">KES 25,000</h2>
+            <p>Available Balance</p>
+            <small>Last updated: <span id="lastUpdated">Just now</span></small>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="showTab('home')">
+                <i class="fas fa-home"></i><br>Home
+            </div>
+            <div class="nav-tab" onclick="showTab('transactions')">
+                <i class="fas fa-exchange-alt"></i><br>Send
+            </div>
+            <div class="nav-tab" onclick="showTab('qr')">
+                <i class="fas fa-qrcode"></i><br>QR
+            </div>
+            <div class="nav-tab" onclick="showTab('history')">
+                <i class="fas fa-history"></i><br>History
+            </div>
+            <div class="nav-tab" onclick="showTab('profile')">
+                <i class="fas fa-user"></i><br>Profile
+            </div>
+        </div>
+
+        <!-- Home Tab -->
+        <div id="home" class="tab-content active">
+            <div class="quick-actions">
+                <div class="action-btn" onclick="showTab('transactions')">
+                    <i class="fas fa-paper-plane"></i>
+                    <div>Send Money</div>
+                </div>
+                <div class="action-btn" onclick="showTab('qr')">
+                    <i class="fas fa-qrcode"></i>
+                    <div>Scan QR</div>
+                </div>
+                <div class="action-btn" onclick="showTab('cashin')">
+                    <i class="fas fa-download"></i>
+                    <div>Cash In</div>
+                </div>
+                <div class="action-btn" onclick="showTab('cashout')">
+                    <i class="fas fa-upload"></i>
+                    <div>Cash Out</div>
+                </div>
+            </div>
+
+            <h3 style="margin: 1rem;">Recent Transactions</h3>
+            <div id="recentTransactions">
+                <!-- Transactions will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Send Money Tab -->
+        <div id="transactions" class="tab-content">
+            <div style="padding: 1rem;">
+                <h3>Send Money</h3>
+                <form id="sendMoneyForm">
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" id="recipientPhone" class="form-control" placeholder="Enter phone number" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Amount (KES)</label>
+                        <input type="number" id="sendAmount" class="form-control" placeholder="Enter amount" min="50" max="1000000" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description (Optional)</label>
+                        <input type="text" id="sendDescription" class="form-control" placeholder="What's this for?">
+                    </div>
+                    <div id="feeDisplay" style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin: 1rem 0; display: none;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Amount:</span>
+                            <span id="displayAmount">KES 0</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Fee:</span>
+                            <span id="displayFee">KES 0</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-weight: bold;">
+                            <span>Total:</span>
+                            <span id="displayTotal">KES 0</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="sendButton">
+                        <span id="sendButtonText">Send Money</span>
+                        <span id="sendButtonLoading" class="loading" style="display: none;"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- QR Tab -->
+        <div id="qr" class="tab-content">
+            <div style="padding: 1rem;">
+                <h3>QR Code</h3>
+                
+                <div class="qr-scanner" onclick="startQRScanner()">
+                    <i class="fas fa-qrcode" style="font-size: 3rem; color: #666; margin-bottom: 1rem;"></i>
+                    <p>Tap to scan QR code</p>
+                    <small>Scan to receive money or pay businesses</small>
+                </div>
+                
+                <div class="qr-display" id="qrDisplay" style="display: none;">
+                    <h4>Your QR Code</h4>
+                    <div class="qr-code">
+                        <i class="fas fa-qrcode" style="font-size: 4rem; color: #666;"></i>
+                    </div>
+                    <p><strong>Share this QR code to receive money</strong></p>
+                    <p style="font-size: 0.9rem; color: #666;">Your phone number: <span id="userPhone">+254 700 123 456</span></p>
+                    <button class="btn btn-secondary" onclick="generateReceiveQR()">Generate New QR</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cash In Tab -->
+        <div id="cashin" class="tab-content">
+            <div style="padding: 1rem;">
+                <h3>Cash In</h3>
+                <p style="color: #666; margin-bottom: 1rem;">Visit any Cashout agent to deposit money into your wallet.</p>
+                
+                <div class="form-group">
+                    <label>Amount to Deposit (KES)</label>
+                    <input type="number" id="cashInAmount" class="form-control" placeholder="Enter amount" min="50" max="1000000">
+                </div>
+                
+                <div class="form-group">
+                    <label>Agent Location</label>
+                    <select id="agentLocation" class="form-control">
+                        <option>Select nearest agent</option>
+                        <option>Nairobi CBD - Agent 001</option>
+                        <option>Westlands - Agent 002</option>
+                        <option>Kileleshwa - Agent 003</option>
+                        <option>Kilimani - Agent 004</option>
+                    </select>
+                </div>
+                
+                <button class="btn btn-primary" onclick="initiateCashIn()">Find Agent</button>
+            </div>
+        </div>
+
+        <!-- Cash Out Tab -->
+        <div id="cashout" class="tab-content">
+            <div style="padding: 1rem;">
+                <h3>Cash Out</h3>
+                <p style="color: #666; margin-bottom: 1rem;">Withdraw money from your wallet at any agent.</p>
+                
+                <div class="form-group">
+                    <label>Amount to Withdraw (KES)</label>
+                    <input type="number" id="cashOutAmount" class="form-control" placeholder="Enter amount" min="50" max="1000000">
+                </div>
+                
+                <div class="form-group">
+                    <label>Agent Location</label>
+                    <select id="cashOutLocation" class="form-control">
+                        <option>Select nearest agent</option>
+                        <option>Nairobi CBD - Agent 001</option>
+                        <option>Westlands - Agent 002</option>
+                        <option>Kileleshwa - Agent 003</option>
+                        <option>Kilimani - Agent 004</option>
+                    </select>
+                </div>
+                
+                <div id="cashOutFeeDisplay" style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin: 1rem 0; display: none;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Withdrawal Amount:</span>
+                        <span id="cashOutDisplayAmount">KES 0</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Fee:</span>
+                        <span id="cashOutDisplayFee">KES 0</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-weight: bold;">
+                        <span>Total Deducted:</span>
+                        <span id="cashOutDisplayTotal">KES 0</span>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="initiateCashOut()">Withdraw Money</button>
+            </div>
+        </div>
+
+        <!-- History Tab -->
+        <div id="history" class="tab-content">
+            <div style="padding: 1rem;">
+                <h3>Transaction History</h3>
+                <div id="transactionHistory">
+                    <!-- Transaction history will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Tab -->
+        <div id="profile" class="tab-content">
+            <div style="padding: 1rem;">
+                <h3>Profile</h3>
+                <div style="text-align: center; margin: 2rem 0;">
+                    <div style="width: 80px; height: 80px; background: var(--primary-color); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h4 id="profileName">John Doe</h4>
+                    <p id="profilePhone">+254 700 123 456</p>
+                </div>
+                <div style="margin: 1rem 0;">
+                    <button class="btn btn-secondary" onclick="showTab('settings')">
+                        <i class="fas fa-cog"></i> Settings
+                    </button>
+                    <button class="btn btn-secondary" onclick="showTab('security')">
+                        <i class="fas fa-shield-alt"></i> Security
+                    </button>
+                    <button class="btn btn-secondary" onclick="showTab('kyc')">
+                        <i class="fas fa-id-card"></i> KYC Verification
+                    </button>
+                    <button class="btn btn-secondary" onclick="showTab('support')">
+                        <i class="fas fa-question-circle"></i> Help & Support
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <script>
+        // Global variables
+        let currentBalance = 25000;
+        let transactions = [];
+        let userData = {
+            name: 'John Doe',
+            phone: '+254 700 123 456',
+            email: 'john.doe@example.com'
+        };
+        
+        // API Configuration
+        const API_BASE_URL = 'http://localhost:5000/api';
+        const CURRENT_USER_ID = 'user1'; // For demo purposes
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            loadTransactions();
+            updateBalance();
+            setupEventListeners();
+            checkAPIHealth();
+        });
+
+        async function checkAPIHealth() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/health`);
+                const data = await response.json();
+                console.log('API Health:', data);
+            } catch (error) {
+                console.warn('API not available, using demo mode');
+            }
+        }
+
+        async function loadUserData() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/users/${CURRENT_USER_ID}`);
+                if (response.ok) {
+                    const user = await response.json();
+                    userData = user;
+                    currentBalance = user.balance;
+                }
+            } catch (error) {
+                console.log('Using demo user data');
+            }
+            
+            document.getElementById('userName').textContent = userData.name;
+            document.getElementById('profileName').textContent = userData.name;
+            document.getElementById('profilePhone').textContent = userData.phone;
+            document.getElementById('userPhone').textContent = userData.phone;
+        }
+
+        async function loadTransactions() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/users/${CURRENT_USER_ID}/transactions`);
+                if (response.ok) {
+                    const data = await response.json();
+                    transactions = data.transactions;
+                } else {
+                    // Fallback to demo data
+                    loadDemoTransactions();
+                }
+            } catch (error) {
+                console.log('Using demo transaction data');
+                loadDemoTransactions();
+            }
+            
+            displayRecentTransactions();
+            displayTransactionHistory();
+        }
+
+        function loadDemoTransactions() {
+            // Sample transactions
+            transactions = [
+                {
+                    id: 1,
+                    type: 'send',
+                    recipient: 'Jane Smith',
+                    amount: 1500,
+                    fee: 22,
+                    total: 1522,
+                    timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+                    status: 'completed'
+                },
+                {
+                    id: 2,
+                    type: 'receive',
+                    sender: 'Mike Johnson',
+                    amount: 2000,
+                    fee: 0,
+                    total: 2000,
+                    timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+                    status: 'completed'
+                },
+                {
+                    id: 3,
+                    type: 'cashout',
+                    amount: 5000,
+                    fee: 52,
+                    total: 5052,
+                    timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+                    status: 'completed'
+                }
+            ];
+        }
+
+        async function updateBalance() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/users/${CURRENT_USER_ID}/balance`);
+                if (response.ok) {
+                    const data = await response.json();
+                    currentBalance = data.balance;
+                }
+            } catch (error) {
+                console.log('Using cached balance');
+            }
+            
+            document.getElementById('walletBalance').textContent = `KES ${currentBalance.toLocaleString()}`;
+            document.getElementById('lastUpdated').textContent = 'Just now';
+        }
+
+        function setupEventListeners() {
+            // Send money form
+            document.getElementById('sendMoneyForm').addEventListener('submit', handleSendMoney);
+            
+            // Amount input listeners
+            document.getElementById('sendAmount').addEventListener('input', calculateSendFee);
+            document.getElementById('cashOutAmount').addEventListener('input', calculateCashOutFee);
+        }
+
+        async function calculateSendFee() {
+            const amount = parseFloat(document.getElementById('sendAmount').value) || 0;
+            
+            if (amount > 0) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/fees/calculate`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            amount: amount,
+                            transaction_type: 'p2p'
+                        })
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        const fee = data.fee;
+                        const total = data.total;
+                        
+                        document.getElementById('feeDisplay').style.display = 'block';
+                        document.getElementById('displayAmount').textContent = `KES ${amount.toLocaleString()}`;
+                        document.getElementById('displayFee').textContent = `KES ${fee}`;
+                        document.getElementById('displayTotal').textContent = `KES ${total.toLocaleString()}`;
+                    }
+                } catch (error) {
+                    // Fallback to local calculation
+                    const fee = calculateFee(amount, 'p2p');
+                    const total = amount + fee;
+                    
+                    document.getElementById('feeDisplay').style.display = 'block';
+                    document.getElementById('displayAmount').textContent = `KES ${amount.toLocaleString()}`;
+                    document.getElementById('displayFee').textContent = `KES ${fee}`;
+                    document.getElementById('displayTotal').textContent = `KES ${total.toLocaleString()}`;
+                }
+            } else {
+                document.getElementById('feeDisplay').style.display = 'none';
+            }
+        }
+
+        function calculateCashOutFee() {
+            const amount = parseFloat(document.getElementById('cashOutAmount').value) || 0;
+            const fee = calculateFee(amount, 'cashout');
+            const total = amount + fee;
+            
+            if (amount > 0) {
+                document.getElementById('cashOutFeeDisplay').style.display = 'block';
+                document.getElementById('cashOutDisplayAmount').textContent = `KES ${amount.toLocaleString()}`;
+                document.getElementById('cashOutDisplayFee').textContent = `KES ${fee}`;
+                document.getElementById('cashOutDisplayTotal').textContent = `KES ${total.toLocaleString()}`;
+            } else {
+                document.getElementById('cashOutFeeDisplay').style.display = 'none';
+            }
+        }
+
+        function calculateFee(amount, type) {
+            // Simplified fee calculation based on the fee structure
+            if (amount <= 100) return 8;
+            if (amount <= 500) return 22;
+            if (amount <= 1000) return 22;
+            if (amount <= 1500) return 22;
+            if (amount <= 2500) return 22;
+            if (amount <= 3500) return 39;
+            if (amount <= 5000) return 52;
+            if (amount <= 7500) return 65;
+            if (amount <= 10000) return 86;
+            if (amount <= 15000) return 125;
+            if (amount <= 20000) return 139;
+            if (amount <= 35000) return 148;
+            if (amount <= 50000) return 209;
+            if (amount <= 250000) return 232;
+            if (amount <= 500000) return 513;
+            return 1076;
+        }
+
+        async function handleSendMoney(e) {
+            e.preventDefault();
+            
+            const phone = document.getElementById('recipientPhone').value;
+            const amount = parseFloat(document.getElementById('sendAmount').value);
+            const description = document.getElementById('sendDescription').value;
+            
+            if (!phone || !amount) {
+                showNotification('Please fill in all required fields', 'error');
+                return;
+            }
+            
+            if (amount > currentBalance) {
+                showNotification('Insufficient balance', 'error');
+                return;
+            }
+            
+            // Show loading
+            const button = document.getElementById('sendButton');
+            const buttonText = document.getElementById('sendButtonText');
+            const buttonLoading = document.getElementById('sendButtonLoading');
+            
+            button.disabled = true;
+            buttonText.style.display = 'none';
+            buttonLoading.style.display = 'inline-block';
+            
+            try {
+                // Try API first
+                const response = await fetch(`${API_BASE_URL}/transactions/send`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        from_user: CURRENT_USER_ID,
+                        to_user: 'user2', // For demo, send to user2
+                        amount: amount,
+                        description: description
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // Update local data
+                    // This part needs to be updated to reflect actual API response
+                    // For now, we'll just update the balance and add to transactions
+                    // In a real app, you'd fetch the updated user data from the API
+                    currentBalance = userData.balance; // Assuming userData is updated by loadUserData
+                    transactions.unshift(data.transaction);
+                    
+                    // Update UI
+                    updateBalance();
+                    displayRecentTransactions();
+                    displayTransactionHistory();
+                    
+                    showNotification('Money sent successfully!', 'success');
+                } else {
+                    const errorData = await response.json();
+                    showNotification(errorData.error || 'Transaction failed', 'error');
+                }
+                
+            } catch (error) {
+                // Fallback to demo mode
+                console.log('API unavailable, using demo mode');
+                
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Process transaction locally
+                const fee = calculateFee(amount, 'p2p');
+                const total = amount + fee;
+                
+                currentBalance -= total;
+                
+                // Add to transactions
+                transactions.unshift({
+                    id: Date.now(),
+                    type: 'send',
+                    recipient: phone,
+                    amount: amount,
+                    fee: fee,
+                    total: total,
+                    timestamp: new Date().toISOString(),
+                    status: 'completed'
+                });
+                
+                // Update UI
+                updateBalance();
+                displayRecentTransactions();
+                displayTransactionHistory();
+                
+                showNotification('Money sent successfully! (Demo Mode)', 'success');
+            } finally {
+                // Reset form
+                document.getElementById('sendMoneyForm').reset();
+                document.getElementById('feeDisplay').style.display = 'none';
+                
+                // Hide loading
+                button.disabled = false;
+                buttonText.style.display = 'inline';
+                buttonLoading.style.display = 'none';
+            }
+        }
+
+        function startQRScanner() {
+            showNotification('QR Scanner would open here', 'info');
+        }
+
+        function generateReceiveQR() {
+            document.getElementById('qrDisplay').style.display = 'block';
+            showNotification('QR Code generated!', 'success');
+        }
+
+        function initiateCashIn() {
+            const amount = parseFloat(document.getElementById('cashInAmount').value) || 0;
+            const location = document.getElementById('agentLocation').value;
+            
+            if (amount <= 0) {
+                showNotification('Please enter a valid amount', 'error');
+                return;
+            }
+            
+            if (location === 'Select nearest agent') {
+                showNotification('Please select an agent location', 'error');
+                return;
+            }
+            
+            showNotification(`Cash In request sent to ${location}`, 'success');
+        }
+
+        function initiateCashOut() {
+            const amount = parseFloat(document.getElementById('cashOutAmount').value) || 0;
+            const location = document.getElementById('cashOutLocation').value;
+            
+            if (amount <= 0) {
+                showNotification('Please enter a valid amount', 'error');
+                return;
+            }
+            
+            if (amount > currentBalance) {
+                showNotification('Insufficient balance', 'error');
+                return;
+            }
+            
+            if (location === 'Select nearest agent') {
+                showNotification('Please select an agent location', 'error');
+                return;
+            }
+            
+            const fee = calculateFee(amount, 'cashout');
+            const total = amount + fee;
+            
+            if (total > currentBalance) {
+                showNotification('Insufficient balance for withdrawal and fees', 'error');
+                return;
+            }
+            
+            showNotification(`Cash Out request sent to ${location}`, 'success');
+        }
+
+        function showTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Remove active class from all nav tabs
+            const navTabs = document.querySelectorAll('.nav-tab');
+            navTabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked nav tab
+            event.target.closest('.nav-tab').classList.add('active');
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // PWA Installation
+        let deferredPrompt;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Show install button
+            showInstallButton();
+        });
+        
+        function showInstallButton() {
+            const installButton = document.createElement('button');
+            installButton.textContent = '📱 Install App';
+            installButton.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #667eea;
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 25px;
+                font-weight: bold;
+                z-index: 1000;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            `;
+            
+            installButton.addEventListener('click', installApp);
+            document.body.appendChild(installButton);
+        }
+        
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
+
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch((registrationError) => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+</body>
+</html> 

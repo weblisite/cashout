@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cashout - Business App</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .app-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .app-header {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .revenue-card {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            padding: 1.5rem;
+            margin: 1rem;
+            border-radius: 16px;
+            text-align: center;
+        }
+        
+        .qr-section {
+            background: #f8f9fa;
+            border: 2px dashed #ddd;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1rem;
+            text-align: center;
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            padding: 1rem;
+        }
+        
+        .action-btn {
+            background: white;
+            border: 2px solid #f0f0f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            border-color: #27ae60;
+            transform: translateY(-2px);
+        }
+        
+        .action-btn i {
+            font-size: 2rem;
+            color: #27ae60;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .transaction-item {
+            background: white;
+            padding: 1rem;
+            margin: 0.5rem 1rem;
+            border-radius: 12px;
+            border-left: 4px solid #27ae60;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .nav-tabs {
+            display: flex;
+            background: #f8f9fa;
+            margin: 1rem;
+            border-radius: 12px;
+            padding: 0.25rem;
+        }
+        
+        .nav-tab {
+            flex: 1;
+            padding: 0.75rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-tab.active {
+            background: white;
+            color: #27ae60;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            padding: 1rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- App Header -->
+        <div class="app-header">
+            <h1><i class="fas fa-store"></i> Cashout Business</h1>
+            <p>ABC Electronics Store</p>
+        </div>
+
+        <!-- Revenue Card -->
+        <div class="revenue-card">
+            <h2>KES 125,000</h2>
+            <p>Today's Revenue</p>
+            <small>Last updated: Just now</small>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="showTab('dashboard')">
+                <i class="fas fa-tachometer-alt"></i><br>Dashboard
+            </div>
+            <div class="nav-tab" onclick="showTab('qr')">
+                <i class="fas fa-qrcode"></i><br>QR Code
+            </div>
+            <div class="nav-tab" onclick="showTab('history')">
+                <i class="fas fa-history"></i><br>History
+            </div>
+            <div class="nav-tab" onclick="showTab('profile')">
+                <i class="fas fa-user"></i><br>Profile
+            </div>
+        </div>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <div class="quick-actions">
+                <a href="#" class="action-btn" onclick="showTab('qr')">
+                    <i class="fas fa-qrcode"></i>
+                    <div>Generate QR</div>
+                </a>
+                <a href="#" class="action-btn">
+                    <i class="fas fa-chart-bar"></i>
+                    <div>Analytics</div>
+                </a>
+                <a href="#" class="action-btn">
+                    <i class="fas fa-download"></i>
+                    <div>Reports</div>
+                </a>
+                <a href="#" class="action-btn">
+                    <i class="fas fa-cog"></i>
+                    <div>Settings</div>
+                </a>
+            </div>
+
+            <h3 style="margin: 1rem;">Today's Summary</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div style="font-size: 1.5rem; font-weight: bold; color: #27ae60;">15</div>
+                    <div style="font-size: 0.9rem; color: #666;">Transactions</div>
+                </div>
+                <div class="stat-card">
+                    <div style="font-size: 1.5rem; font-weight: bold; color: #f39c12;">KES 125,000</div>
+                    <div style="font-size: 0.9rem; color: #666;">Revenue</div>
+                </div>
+                <div class="stat-card">
+                    <div style="font-size: 1.5rem; font-weight: bold; color: #e74c3c;">KES 6,250</div>
+                    <div style="font-size: 0.9rem; color: #666;">Fees Paid</div>
+                </div>
+                <div class="stat-card">
+                    <div style="font-size: 1.5rem; font-weight: bold; color: #3498db;">4.8</div>
+                    <div style="font-size: 0.9rem; color: #666;">Avg Rating</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- QR Code Tab -->
+        <div id="qr" class="tab-content">
+            <div style="padding: 1rem;">
+                <h3>Generate Payment QR</h3>
+                
+                <div style="margin: 1rem 0;">
+                    <label>Amount (KES)</label>
+                    <input type="number" id="qrAmount" placeholder="Enter amount" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; margin-top: 0.5rem;">
+                </div>
+                
+                <button onclick="generateQR()" style="width: 100%; padding: 1rem; background: #27ae60; color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-bottom: 1rem;">
+                    Generate QR Code
+                </button>
+                
+                <div class="qr-section" id="qrDisplay" style="display: none;">
+                    <div style="width: 200px; height: 200px; background: #f0f0f0; margin: 0 auto 1rem; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-qrcode" style="font-size: 4rem; color: #666;"></i>
+                    </div>
+                    <p><strong>Amount: KES <span id="qrAmountDisplay">0</span></strong></p>
+                    <p style="font-size: 0.9rem; color: #666;">Customer scans this QR to pay</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Tab -->
+        <div id="history" class="tab-content">
+            <div style="padding: 1rem;">
+                <h3>Transaction History</h3>
+                <div class="transaction-item">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>Payment from Customer</strong>
+                            <div style="color: #666; font-size: 0.9rem;">Today, 2:30 PM</div>
+                        </div>
+                        <div style="color: #27ae60; font-weight: bold;">+KES 15,000</div>
+                    </div>
+                    <div style="color: #e74c3c; font-size: 0.9rem; margin-top: 0.5rem;">
+                        Fee: KES 750
+                    </div>
+                </div>
+                <div class="transaction-item">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>Payment from Customer</strong>
+                            <div style="color: #666; font-size: 0.9rem;">Today, 1:15 PM</div>
+                        </div>
+                        <div style="color: #27ae60; font-weight: bold;">+KES 8,500</div>
+                    </div>
+                    <div style="color: #e74c3c; font-size: 0.9rem; margin-top: 0.5rem;">
+                        Fee: KES 425
+                    </div>
+                </div>
+                <div class="transaction-item">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>Payment from Customer</strong>
+                            <div style="color: #666; font-size: 0.9rem;">Today, 11:30 AM</div>
+                        </div>
+                        <div style="color: #27ae60; font-weight: bold;">+KES 12,000</div>
+                    </div>
+                    <div style="color: #e74c3c; font-size: 0.9rem; margin-top: 0.5rem;">
+                        Fee: KES 600
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Tab -->
+        <div id="profile" class="tab-content">
+            <div style="padding: 1rem;">
+                <h3>Business Profile</h3>
+                <div style="text-align: center; margin: 2rem 0;">
+                    <div style="width: 80px; height: 80px; background: #27ae60; border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h4>ABC Electronics Store</h4>
+                    <p>Business ID: BUS-001</p>
+                    <p>Location: Westlands, Nairobi</p>
+                </div>
+                <div style="margin: 1rem 0;">
+                    <button style="width: 100%; padding: 0.75rem; background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 0.5rem; text-align: left;">
+                        <i class="fas fa-chart-line"></i> Analytics
+                    </button>
+                    <button style="width: 100%; padding: 0.75rem; background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 0.5rem; text-align: left;">
+                        <i class="fas fa-wallet"></i> Wallet
+                    </button>
+                    <button style="width: 100%; padding: 0.75rem; background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 0.5rem; text-align: left;">
+                        <i class="fas fa-cog"></i> Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Remove active class from all nav tabs
+            const navTabs = document.querySelectorAll('.nav-tab');
+            navTabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked nav tab
+            event.target.closest('.nav-tab').classList.add('active');
+        }
+        
+        function generateQR() {
+            const amount = document.getElementById('qrAmount').value;
+            if (amount && amount > 0) {
+                document.getElementById('qrAmountDisplay').textContent = amount;
+                document.getElementById('qrDisplay').style.display = 'block';
+            } else {
+                alert('Please enter a valid amount');
+            }
+        }
+    </script>
+</body>
+</html> 

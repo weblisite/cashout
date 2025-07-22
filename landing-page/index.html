@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cashout - The Future of Money in Kenya</title>
+    <meta name="description" content="Cashout is Kenya's most advanced payment platform. Send money instantly, pay with QR codes, and manage your finances with cutting-edge technology.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="assets/logo.svg" alt="Cashout" class="logo">
+                <span class="logo-text">Cashout</span>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#how-it-works" class="nav-link">How it Works</a>
+                <a href="#pricing" class="nav-link">Pricing</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            
+            <div class="nav-buttons">
+                <a href="#download" class="btn btn-secondary">Download App</a>
+                <a href="#signup" class="btn btn-primary">Get Started</a>
+            </div>
+            
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-background">
+            <div class="hero-glow"></div>
+            <div class="hero-particles"></div>
+        </div>
+        
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-star"></i>
+                    <span>Kenya's #1 Payment Platform</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    The Future of
+                    <span class="gradient-text">Money</span>
+                    is Here
+                </h1>
+                
+                <p class="hero-subtitle">
+                    Experience lightning-fast payments, secure transactions, and seamless money management. 
+                    Built for Kenya, powered by cutting-edge technology.
+                </p>
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">2M+</div>
+                        <div class="stat-label">Active Users</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">KES 50B+</div>
+                        <div class="stat-label">Processed</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">99.9%</div>
+                        <div class="stat-label">Uptime</div>
+                    </div>
+                </div>
+                
+                <div class="hero-buttons">
+                    <a href="user-app.html" class="btn btn-primary btn-large">
+                        <i class="fas fa-mobile-alt"></i>
+                        Try User App
+                    </a>
+                    <a href="agent-app.html" class="btn btn-outline btn-large">
+                        <i class="fas fa-user-tie"></i>
+                        Try Agent App
+                    </a>
+                    <a href="business-app.html" class="btn btn-outline btn-large">
+                        <i class="fas fa-store"></i>
+                        Try Business App
+                    </a>
+                    </a>
+                </div>
+                
+                <div class="hero-trust">
+                    <div class="trust-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Bank-Grade Security</span>
+                    </div>
+                    <div class="trust-item">
+                        <i class="fas fa-bolt"></i>
+                        <span>Instant Transfers</span>
+                    </div>
+                    <div class="trust-item">
+                        <i class="fas fa-headset"></i>
+                        <span>24/7 Support</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-visual">
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <div class="app-interface">
+                            <div class="app-header">
+                                <div class="app-balance">
+                                    <span class="balance-label">Balance</span>
+                                    <span class="balance-amount">KES 25,000</span>
+                                </div>
+                                <div class="app-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="app-actions">
+                                <div class="action-btn">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>Send</span>
+                                </div>
+                                <div class="action-btn">
+                                    <i class="fas fa-arrow-down"></i>
+                                    <span>Receive</span>
+                                </div>
+                                <div class="action-btn">
+                                    <i class="fas fa-qrcode"></i>
+                                    <span>Pay</span>
+                                </div>
+                                <div class="action-btn">
+                                    <i class="fas fa-wallet"></i>
+                                    <span>Wallet</span>
+                                </div>
+                            </div>
+                            
+                            <div class="app-transactions">
+                                <div class="transaction">
+                                    <div class="transaction-icon">
+                                        <i class="fas fa-arrow-up"></i>
+                                    </div>
+                                    <div class="transaction-details">
+                                        <span class="transaction-name">John Doe</span>
+                                        <span class="transaction-time">2 min ago</span>
+                                    </div>
+                                    <div class="transaction-amount sent">-KES 1,500</div>
+                                </div>
+                                <div class="transaction">
+                                    <div class="transaction-icon">
+                                        <i class="fas fa-arrow-down"></i>
+                                    </div>
+                                    <div class="transaction-details">
+                                        <span class="transaction-name">Mama Mboga</span>
+                                        <span class="transaction-time">1 hour ago</span>
+                                    </div>
+                                    <div class="transaction-amount received">+KES 2,000</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="floating-elements">
+                    <div class="floating-card card-1">
+                        <i class="fas fa-qrcode"></i>
+                        <span>QR Pay</span>
+                    </div>
+                    <div class="floating-card card-2">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Secure</span>
+                    </div>
+                    <div class="floating-card card-3">
+                        <i class="fas fa-bolt"></i>
+                        <span>Fast</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Why Choose Cashout?</h2>
+                <p class="section-subtitle">Built with cutting-edge technology to revolutionize payments in Kenya</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Lightning Fast</h3>
+                    <p>Send money instantly to anyone in Kenya. No waiting, no delays, just pure speed.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Bank-Grade Security</h3>
+                    <p>Your money is protected with military-grade encryption and fraud detection.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <h3>QR Code Payments</h3>
+                    <p>Pay at any business with a simple QR code scan. No cash needed.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Agent Network</h3>
+                    <p>Access your money anywhere with our extensive network of trusted agents.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Smart Analytics</h3>
+                    <p>Track your spending, set budgets, and get insights into your financial habits.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>24/7 Support</h3>
+                    <p>Our dedicated support team is always here to help you, day or night.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">How Cashout Works</h2>
+                <p class="section-subtitle">Simple, secure, and seamless money management</p>
+            </div>
+            
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Download & Sign Up</h3>
+                        <p>Download the Cashout app and create your account in minutes with just your phone number.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Add Money</h3>
+                        <p>Visit any Cashout agent to add money to your wallet. Cash-in instantly at thousands of locations.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Send & Pay</h3>
+                        <p>Send money to friends, pay businesses with QR codes, or withdraw cash at any agent.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Track & Manage</h3>
+                        <p>Monitor your transactions, set budgets, and get insights into your spending patterns.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Transparent Fee Structure</h2>
+                <p class="section-subtitle">No hidden fees, no surprises. Clear, competitive rates for all transactions.</p>
+            </div>
+            
+            <div class="fee-table-container">
+                <h3>Cashout User Fee Structure for P2P Transfers and Cash-Out</h3>
+                <div class="table-wrapper">
+                    <table class="fee-table">
+                        <thead>
+                            <tr>
+                                <th>Transaction Range (KES)</th>
+                                <th>User Fees for Sending Cash Out (KES)</th>
+                                <th>User Fee for Withdrawing Cash Out (KES)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>50 - 100</td>
+                                <td>8</td>
+                                <td>8</td>
+                            </tr>
+                            <tr>
+                                <td>101 - 500</td>
+                                <td>22</td>
+                                <td>22</td>
+                            </tr>
+                            <tr>
+                                <td>501 - 1,000</td>
+                                <td>22</td>
+                                <td>22</td>
+                            </tr>
+                            <tr>
+                                <td>1,001 - 1,500</td>
+                                <td>22</td>
+                                <td>22</td>
+                            </tr>
+                            <tr>
+                                <td>1,501 - 2,500</td>
+                                <td>22</td>
+                                <td>22</td>
+                            </tr>
+                            <tr>
+                                <td>2,501 - 3,500</td>
+                                <td>39</td>
+                                <td>39</td>
+                            </tr>
+                            <tr>
+                                <td>3,501 - 5,000</td>
+                                <td>52</td>
+                                <td>52</td>
+                            </tr>
+                            <tr>
+                                <td>5,001 - 7,500</td>
+                                <td>65</td>
+                                <td>65</td>
+                            </tr>
+                            <tr>
+                                <td>7,501 - 10,000</td>
+                                <td>86</td>
+                                <td>86</td>
+                            </tr>
+                            <tr>
+                                <td>10,001 - 15,000</td>
+                                <td>125</td>
+                                <td>125</td>
+                            </tr>
+                            <tr>
+                                <td>15,001 - 20,000</td>
+                                <td>139</td>
+                                <td>139</td>
+                            </tr>
+                            <tr>
+                                <td>20,001 - 35,000</td>
+                                <td>148</td>
+                                <td>148</td>
+                            </tr>
+                            <tr>
+                                <td>35,001 - 50,000</td>
+                                <td>209</td>
+                                <td>209</td>
+                            </tr>
+                            <tr>
+                                <td>50,001 - 250,000</td>
+                                <td>232</td>
+                                <td>232</td>
+                            </tr>
+                            <tr>
+                                <td>250,001 - 500,000</td>
+                                <td>513</td>
+                                <td>513</td>
+                            </tr>
+                            <tr>
+                                <td>500,001 - 1,000,000</td>
+                                <td>1,076</td>
+                                <td>1,076</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="fee-notes">
+                    <div class="note-item">
+                        <h4><i class="fas fa-info-circle"></i> Important Notes:</h4>
+                        <ul>
+                            <li><strong>P2P Transfers:</strong> User fees are fully retained by the platform</li>
+                            <li><strong>Cash-Out Transactions:</strong> Platform retains 75%, agents receive 25%</li>
+                            <li><strong>Cash-In:</strong> Always FREE - no fees for deposits</li>
+                            <li><strong>Business Payments:</strong> 50/50 split between user and business</li>
+                            <li><strong>Rounding:</strong> Fees rounded to nearest whole number</li>
+                            <li><strong>No Hidden Charges:</strong> All fees are transparent and inclusive</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Personal Users</h3>
+                        <div class="pricing-subtitle">Individual customers</div>
+                    </div>
+                    
+                    <div class="fee-highlights">
+                        <div class="highlight-item">
+                            <i class="fas fa-arrow-up"></i>
+                            <div>
+                                <h4>Send Money (P2P)</h4>
+                                <p>From KES 8 (50-100 KES)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="highlight-item">
+                            <i class="fas fa-arrow-down"></i>
+                            <div>
+                                <h4>Receive Money</h4>
+                                <p>Always FREE</p>
+                            </div>
+                        </div>
+                        
+                        <div class="highlight-item">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <div>
+                                <h4>Cash-in (Deposit)</h4>
+                                <p>Always FREE</p>
+                            </div>
+                        </div>
+                        
+                        <div class="highlight-item">
+                            <i class="fas fa-hand-holding-usd"></i>
+                            <div>
+                                <h4>Cash-out (Withdraw)</h4>
+                                <p>From KES 8 (50-100 KES)</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="#signup" class="btn btn-primary btn-full">Get Started Free</a>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3>Businesses</h3>
+                        <div class="pricing-subtitle">Shops, restaurants, services</div>
+                    </div>
+                    
+                    <div class="fee-highlights">
+                        <div class="highlight-item">
+                            <i class="fas fa-store"></i>
+                            <div>
+                                <h4>Receive Payments</h4>
+                                <p>50% of transaction fee</p>
+                            </div>
+                        </div>
+                        
+                        <div class="highlight-item">
+                            <i class="fas fa-qrcode"></i>
+                            <div>
+                                <h4>QR Code Setup</h4>
+                                <p>FREE one-time setup</p>
+                            </div>
+                        </div>
+                        
+                        <div class="highlight-item">
+                            <i class="fas fa-chart-line"></i>
+                            <div>
+                                <h4>Sales Analytics</h4>
+                                <p>FREE real-time insights</p>
+                            </div>
+                        </div>
+                        
+                        <div class="highlight-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <h4>Daily Settlements</h4>
+                                <p>FREE automatic transfers</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="#signup" class="btn btn-primary btn-full">Start Accepting Payments</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Agents</h3>
+                        <div class="pricing-subtitle">Cash-in/Cash-out agents</div>
+                    </div>
+                    
+                    <div class="fee-highlights">
+                        <div class="highlight-item">
+                            <i class="fas fa-handshake"></i>
+                            <div>
+                                <h4>Cash-in Commission</h4>
+                                <p>0% - No commission</p>
+                            </div>
+                        </div>
+                        
+                        <div class="highlight-item">
+                            <i class="fas fa-percentage"></i>
+                            <div>
+                                <h4>Cash-out Commission</h4>
+                                <p>25% of transaction fee</p>
+                            </div>
+                        </div>
+                        
+                        <div class="highlight-item">
+                            <i class="fas fa-wallet"></i>
+                            <div>
+                                <h4>Float Limit</h4>
+                                <p>KES 100K daily limit</p>
+                            </div>
+                        </div>
+                        
+                        <div class="highlight-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <div>
+                                <h4>Insurance</h4>
+                                <p>Full liability protection</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="#contact" class="btn btn-outline btn-full">Become an Agent</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Built for Kenya, by Kenyans</h2>
+                    <p>Cashout was born from a simple idea: to make money management accessible, secure, and seamless for every Kenyan. We understand the unique challenges and opportunities in our market, and we've built a platform that addresses them head-on.</p>
+                    
+                    <div class="about-stats">
+                        <div class="about-stat">
+                            <div class="stat-number">50+</div>
+                            <div class="stat-label">Counties Covered</div>
+                        </div>
+                        <div class="about-stat">
+                            <div class="stat-number">10,000+</div>
+                            <div class="stat-label">Agent Locations</div>
+                        </div>
+                        <div class="about-stat">
+                            <div class="stat-number">24/7</div>
+                            <div class="stat-label">Support Available</div>
+                        </div>
+                    </div>
+                    
+                    <div class="about-mission">
+                        <h3>Our Mission</h3>
+                        <p>To democratize financial services and empower every Kenyan with the tools they need to manage their money effectively, securely, and conveniently.</p>
+                    </div>
+                </div>
+                
+                <div class="about-visual">
+                    <div class="kenya-map">
+                        <div class="map-point nairobi">
+                            <div class="point-pulse"></div>
+                        </div>
+                        <div class="map-point mombasa">
+                            <div class="point-pulse"></div>
+                        </div>
+                        <div class="map-point kisumu">
+                            <div class="point-pulse"></div>
+                        </div>
+                        <div class="map-point nakuru">
+                            <div class="point-pulse"></div>
+                        </div>
+                        <div class="map-point eldoret">
+                            <div class="point-pulse"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Get in Touch</h2>
+                <p class="section-subtitle">Have questions? We'd love to hear from you.</p>
+            </div>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Email</h4>
+                            <p>support@cashout.co.ke</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Phone</h4>
+                            <p>+254 700 000 000</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Address</h4>
+                            <p>Westlands, Nairobi, Kenya</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Support Hours</h4>
+                            <p>24/7 Customer Support</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="phone" name="phone" placeholder="Your Phone Number" required>
+                        </div>
+                        <div class="form-group">
+                            <select id="subject" name="subject" required>
+                                <option value="">Select Subject</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="support">Technical Support</option>
+                                <option value="business">Business Partnership</option>
+                                <option value="feedback">Feedback</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" placeholder="Your Message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="assets/logo.svg" alt="Cashout" class="logo">
+                        <span class="logo-text">Cashout</span>
+                    </div>
+                    <p>The future of money in Kenya. Secure, fast, and reliable payments for everyone.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#download">Download</a></li>
+                        <li><a href="#api">API</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#careers">Careers</a></li>
+                        <li><a href="#press">Press</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#help">Help Center</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#status">System Status</a></li>
+                        <li><a href="#contact">Contact Support</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#terms">Terms of Service</a></li>
+                        <li><a href="#security">Security</a></li>
+                        <li><a href="#compliance">Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Cashout. All rights reserved. Made with ❤️ in Kenya.</p>
+                <div class="footer-bottom-links">
+                    <a href="#privacy">Privacy</a>
+                    <a href="#terms">Terms</a>
+                    <a href="#cookies">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html> 
